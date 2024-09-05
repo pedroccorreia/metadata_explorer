@@ -1,0 +1,6 @@
+streamlit
+streamlit-extras
+streamlit-image-comparison
+google-cloud-aiplatform
+google-cloud-storage 
+google-cloud-firestore

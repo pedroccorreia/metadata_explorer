@@ -1,0 +1,13 @@
+project:
+  project_id: your_project_id
+  project_number: 123456789101
+  location: global
+
+storage:
+  output_bucket : your-project-id-media-output
+  input_bucket : your-project-id-media-input
+  
+db:
+  video: metadata
+  image: images
+  audio: audio
