@@ -1,0 +1,5 @@
+.venv/*
+secrets/*
+config.yaml
+*.vtt
+.DS_Store
