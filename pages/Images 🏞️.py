@@ -35,15 +35,15 @@ def build_list_page():
     content_grid = grid(2, vertical_align="center")
     for item in items:
         with content_grid.container(border=True):
+            image_data = utils.get_bytes_from_gcs(f"{constants.INPUT_BUCKET}/{item['file_name']}")
             
             st.subheader(item['name'])
             st.write(f"""*Description:* {item['metadata']['description']}""")
             st.write(f"""*Photo Type* {item['metadata']['photo_type']}""")
             st.write(f"""*Location* {item['metadata']['location']}""")
 
-            file_uri = f"https://storage.cloud.google.com/{constants.INPUT_BUCKET}/{item['file_name']}"
-
-            st.image(file_uri)
+            
+            st.image(image_data)
             tagger_component("*Labels*", utils.get_labels(item['metadata']['subject_topics']))
             
             entries = []

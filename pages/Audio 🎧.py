@@ -24,6 +24,7 @@ def build_list_page():
     for item in items:
         with content_grid.container(border=True):
             st.subheader(item['name'])
+            st.write(f"*Show*: {item['metadata']['show_name']}")
             st.write(f"*Short*: {item['metadata']['short_summary']}")
             with st.expander(label = 'Long Summary', expanded=False):
                 st.write(f"{item['metadata']['long_summary']}")
