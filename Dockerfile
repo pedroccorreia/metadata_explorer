@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
 
 # TODO: make it work with arguments for github repo
 # get source code 
-# RUN git clone https://github.com/pedroccorreia/metadata_explorer.git .
+RUN git clone https://github.com/pedroccorreia/metadata_explorer.git .
 
 #copy all files
 COPY . .

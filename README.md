@@ -65,10 +65,11 @@ sh run.sh
 
 To build a container and deploy it to cloud run we will need to: 
 
-1. Create your environment dependent config file.
-2. Build the container.
-3. Push the container to Artifact Registry.
-4. Deploy the container to Cloud Run.
+1. Create your environment dependent config file (config.yaml)
+2. Sort out authentication with application credentials (secrets/credentials.json)
+3. Build the container.
+4. Push the container to Artifact Registry.
+5. Deploy the container to Cloud Run.
 
 Running the following commands in Cloud Shell will make authentication process easier.
 
