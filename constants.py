@@ -17,3 +17,5 @@ INPUT_BUCKET = config_info['storage']['input_bucket']
 VIDEO_FIRESTORE_DATABASE = config_info['db']['video']
 IMAGE_FIRESTORE_DATABASE = config_info['db']['image']
 AUDIO_FIRESTORE_DATABASE = config_info['db']['audio']
+
+SERVICE_ACCOUNT_KEY_FILE = 'secrets/credentials.json'

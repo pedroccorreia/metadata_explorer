@@ -15,6 +15,7 @@ st.set_page_config(
 )
 
 metadata_service = MetadataService()
+storage_service = st.session_state[ui_constants.SERVICE_STORAGE]
 
 # Service Handlers
 def get_media_items():
@@ -75,9 +76,10 @@ def build_list_page():
 
     content_grid = grid(1, vertical_align="center")
     for index, item in enumerate(items):
-        thumbnails = utils.get_thumbnails(item)
+        thumbnails = utils.get_thumbnails(item, storage_service)
         item_container = content_grid.container(border=True)
         card_top_row = item_container.columns([8,1])
+
         card_top_row[0].subheader(f"{index+1} - {item['name']}")
         card_top_row[1].button('Details ↘️', key = item['file_name']+'b',on_click=handle_button_click, args=([item]))
 
@@ -92,10 +94,9 @@ def build_detail_page(item):
 
     row1 = row([2,1], vertical_align="center")
 
-    VIDEO_URL = f"{constants.INPUT_BUCKET}/{item['file_name']}"
-    video_data = utils.get_bytes_from_gcs(VIDEO_URL)
+    video_uri = storage_service.get_signed_url(item['file_name'])
 
-    st.video(video_data, autoplay=True)
+    st.video(video_uri, autoplay=True)
     with st.container():
         st.subheader("Summary")
         st.write(item['summary']['short_summary'])
@@ -136,11 +137,10 @@ def build_section_detail_page(item,  section):
     except:
         st.error('Error creating subtitles', icon="🚨")
         
+    video_path = '/'.join(section['split_video_uri'].split('/')[3:])
+    video_url = storage_service.get_signed_url(video_path)
 
-    VIDEO_URL = section['split_video_uri']
-    video_data = utils.get_bytes_from_gcs(VIDEO_URL)
-
-    st.video(video_data, subtitles='output.vtt', autoplay=True)
+    st.video(video_url, subtitles='output.vtt', autoplay=True)
 
     with st.container():
         st.subheader("Section info")

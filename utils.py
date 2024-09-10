@@ -107,45 +107,13 @@ def get_transcription_detail(json_data):
       final_transcript = ' '.join(transcripts)            
     return final_transcript
 
-
-def get_bytes_from_gcs(gcs_uri):
-  """Fetches bytes from a GCS URI.
-
-  Args:
-      gcs_uri: The Google Cloud Storage URI of the assets (e.g., 'gs://your-bucket-name/path/to/image.jpg')
-
-  Returns:
-      bytes: The bytes if successful, otherwise None.
-  """
-
-  try:
-      # Parse the GCS URI
-      bucket_name = gcs_uri.replace("gs://", "").split("/")[0]
-      blob_name = "/".join(gcs_uri.replace("gs://", "").split("/")[1:])
-
-      # Authenticate to GCS
-      storage_client = storage.Client()
-
-      # Get the bucket and blob
-      bucket = storage_client.bucket(bucket_name)
-      blob = bucket.blob(blob_name)
-
-      # Download    1.  github.com github.com image into memory
-      image_bytes = blob.download_as_bytes()
-
-      return image_bytes
-
-  except Exception as e:
-      print(f"Error fetching image from GCS: {e}")
-      return None
   
-# Returns the bytes for the video thumbnails
+# Returns the signed urls for the video thumbnails
 # Currently only 3 thumbnails are generated
-def get_thumbnails(video):
+def get_thumbnails(video, storage_service):
     name = video['name']
 
-    # Assuming get_image_from_gcs is your function from the previous example
     return [
-        get_bytes_from_gcs(f'gs://{constants.OUTPUT_BUCKET}/thumbnails/{name}_thumbnail_{i}.png') 
+        storage_service.get_signed_url(f'thumbnails/{name}_thumbnail_{i}.png') 
         for i in range(0, 3)
     ]

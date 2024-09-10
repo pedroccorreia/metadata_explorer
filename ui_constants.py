@@ -10,3 +10,7 @@ MEDIA_VIEW_ITEM = "media_view_item"
 MEDIA_ITEM_CHOSEN = "media_item_chosen"
 # Boolean flag to inform if a there is an item being explored in detail
 MEDIA_ITEM_SEGMENT_CHOSEN = "media_item_segment_chosen"
+
+
+#Service definitions
+SERVICE_STORAGE = "service_storage"

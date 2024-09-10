@@ -3,8 +3,12 @@ from streamlit_extras.row import row
 from streamlit_extras.grid import grid
 from streamlit_extras.tags import tagger_component
 
+import constants
 from services.metadata_service import MetadataService
 import pandas as pd
+
+from services.storage_service import StorageService
+import ui_constants
 
 st.set_page_config(
     page_title="Metadata Explorer",
@@ -12,7 +16,10 @@ st.set_page_config(
     layout="wide",    
 )
 
+# Services initialization
+st.session_state[ui_constants.SERVICE_STORAGE] = StorageService([constants.INPUT_BUCKET, constants.OUTPUT_BUCKET], constants.SERVICE_ACCOUNT_KEY_FILE)
 
+# Page definition
 st.header("Metadata Explorer 🗺️")
 st.write("This app allows you to explore the metadata of your media assets. There is an ingestion pipeline that looks at your media assets and creates metadata")
 st.write("This front end connects to a firestore database that has the metadata on your assets. What's on these assets is explained next.")

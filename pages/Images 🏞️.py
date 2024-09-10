@@ -5,6 +5,8 @@ from streamlit_extras.tags import tagger_component
 
 import constants
 from services.metadata_service import MetadataService
+from services.storage_service import StorageService
+import ui_constants
 import utils
 
 st.set_page_config(
@@ -15,8 +17,7 @@ st.set_page_config(
 
 
 metadata_service = MetadataService(collection_name = constants.IMAGE_FIRESTORE_DATABASE)
-
-
+storage_service = st.session_state[ui_constants.SERVICE_STORAGE]
 
 #Event handler
 def handle_button_click():
@@ -35,7 +36,7 @@ def build_list_page():
     content_grid = grid(2, vertical_align="center")
     for item in items:
         with content_grid.container(border=True):
-            image_data = utils.get_bytes_from_gcs(f"{constants.INPUT_BUCKET}/{item['file_name']}")
+            img_url = storage_service.get_signed_url(item['file_name'])
             
             st.subheader(item['name'])
             st.write(f"""*Description:* {item['metadata']['description']}""")
@@ -43,7 +44,7 @@ def build_list_page():
             st.write(f"""*Location* {item['metadata']['location']}""")
 
             
-            st.image(image_data)
+            st.image(img_url)
             tagger_component("*Labels*", utils.get_labels(item['metadata']['subject_topics']))
             
             entries = []
