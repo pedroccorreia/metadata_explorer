@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit_extras.row import row
 from streamlit_extras.grid import grid
 from streamlit_extras.tags import tagger_component
+import streamlit.components.v1 as components
 
 import constants
 from services.metadata_service import MetadataService
@@ -16,8 +17,11 @@ st.set_page_config(
     layout="wide",    
 )
 
-# Services initialization
-st.session_state[ui_constants.SERVICE_STORAGE] = StorageService([constants.INPUT_BUCKET, constants.OUTPUT_BUCKET], constants.SERVICE_ACCOUNT_KEY_FILE)
+if ui_constants.SERVICE_STORAGE not in st.session_state:
+    with st.spinner('Getting your experience ready...'):
+        # Services initialization
+        st.session_state[ui_constants.SERVICE_STORAGE] = StorageService([constants.INPUT_BUCKET, constants.OUTPUT_BUCKET], constants.SERVICE_ACCOUNT_KEY_FILE)
+
 
 # Page definition
 st.header("Metadata Explorer 🗺️")

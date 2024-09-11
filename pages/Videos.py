@@ -1,9 +1,9 @@
+from concurrent.futures import thread
 import streamlit as st
 from streamlit_extras.row import row
 from streamlit_extras.grid import grid
 from streamlit_extras.tags import tagger_component
 
-import constants
 from services.metadata_service import MetadataService
 import ui_constants
 import utils
@@ -74,17 +74,19 @@ def build_list_page():
     st.write("This page allows you to explore the metadata of your videos.")
     st.header("List:")
 
-    content_grid = grid(1, vertical_align="center")
-    for index, item in enumerate(items):
-        thumbnails = utils.get_thumbnails(item, storage_service)
-        item_container = content_grid.container(border=True)
-        card_top_row = item_container.columns([8,1])
+    with st.spinner('Loading your videos...'):
+        content_grid = grid(1, vertical_align="center")
+        for index, item in enumerate(items):  
+            thumbnails = utils.get_thumbnails(item, storage_service)
+            item_container = content_grid.container(border=True)
+            card_top_row = item_container.columns([8,1])
 
-        card_top_row[0].subheader(f"{index+1} - {item['name']}")
-        card_top_row[1].button('Details ↘️', key = item['file_name']+'b',on_click=handle_button_click, args=([item]))
-
-        
-        item_container.image(thumbnails, width=350)
+            card_top_row[0].subheader(f"{index+1} - {item['name']}")
+            card_top_row[1].button('Details ↘️', key = item['file_name']+'b',on_click=handle_button_click, args=([item]))
+            item_container.image(thumbnails, width=350)
+        st.toast(body='All videos loaded', icon='👍')
+            
+            
         
 def build_detail_page(item):
 
@@ -161,7 +163,7 @@ def build_section_detail_page(item,  section):
 
 
 # Page Logic
-st.title("Videos")
+st.title("Videos 📼")
 
 # Start up navigation and state info
 if  ui_constants.MEDIA_VIEW_TYPE not in st.session_state:
