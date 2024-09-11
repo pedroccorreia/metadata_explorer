@@ -39,18 +39,23 @@ def build_list_page():
             img_url = storage_service.get_signed_url(item['file_name'])
             
             st.subheader(item['name'])
-            st.write(f"""*Description:* {item['metadata']['description']}""")
-            st.write(f"""*Photo Type* {item['metadata']['photo_type']}""")
-            st.write(f"""*Location* {item['metadata']['location']}""")
+            if 'metadata' in item:
+                st.write(f"""*Description:* {item['metadata']['description']}""")
+                st.write(f"""*Photo Type* {item['metadata']['photo_type']}""")
+                st.write(f"""*Location* {item['metadata']['location']}""")
+                st.image(img_url)
+                tagger_component("*Labels*", utils.get_labels(item['metadata']['subject_topics']))
+                
+                entries = []
+                for person in item['metadata']['persons']:
+                    entries.append(person['person'])
+                tagger_component("*People*", entries)
+            else:
+                st.image(img_url)
+                st.write(f"No metadata generated for this item")
 
             
-            st.image(img_url)
-            tagger_component("*Labels*", utils.get_labels(item['metadata']['subject_topics']))
             
-            entries = []
-            for person in item['metadata']['persons']:
-                entries.append(person['person'])
-            tagger_component("*People*", entries)
             
 
 

@@ -112,8 +112,10 @@ def get_transcription_detail(json_data):
 # Currently only 3 thumbnails are generated
 def get_thumbnails(video, storage_service):
     name = video['name']
-
-    return [
-        storage_service.get_signed_url(f'thumbnails/{name}_thumbnail_{i}.png') 
-        for i in range(0, 3)
-    ]
+    try:
+        results = [storage_service.get_signed_url(f'thumbnails/{name}_thumbnail_{i}.png') 
+        for i in range(0, 3)]
+        return results
+    except Exception as e:
+        print(f"Error getting thumbnails for {name}: {e}")
+    return []
