@@ -119,3 +119,17 @@ def get_thumbnails(video, storage_service):
     except Exception as e:
         print(f"Error getting thumbnails for {name}: {e}")
     return []
+
+#builds the header for the different items
+def build_item_header(index, name):
+    color = "#AC87eb"
+    if index % 2 != 0:
+        color = "#078EFB"
+    return f"""
+        <div style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 5px;"> 
+            <div style="display: inline-block; width: 50px; height: 50px; border-radius: 50%; 
+                        background-color: {color}; color: white; text-align: center; 
+                        line-height: 50px; font-size: 24px;">{index+1}</div>
+            <h3 style="margin-left: 10px;">{name}</h3> 
+        </div>
+        """   

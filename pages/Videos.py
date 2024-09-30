@@ -41,9 +41,11 @@ def get_media_items():
 items = get_media_items()
 
 # Event Handlers
-def handle_section_click(section): 
+def handle_section_click(section, number_sections): 
     st.session_state[ui_constants.MEDIA_VIEW_TYPE] = ui_constants.MEDIA_VIEW_ITEM_SEGMENT
     st.session_state[ui_constants.MEDIA_ITEM_SEGMENT_CHOSEN] = section
+    st.session_state[ui_constants.MEDIA_ITEM_INDEX_CHOSEN] = section['order']
+    st.session_state[ui_constants.MEDIA_ITEM_SECTIONS_LENGTH] = number_sections
 
 def handle_button_click(item):
     """Event handler for the button click.
@@ -65,12 +67,14 @@ def handle_next_segment_button_click():
     current_section_number = st.session_state[ui_constants.MEDIA_ITEM_SEGMENT_CHOSEN]['order']
     if( current_section_number < len(current_item['sections']) or current_section_number > 0 ):
         st.session_state[ui_constants.MEDIA_ITEM_SEGMENT_CHOSEN] = current_item['sections'][current_section_number+1]
+        st.session_state[ui_constants.MEDIA_ITEM_INDEX_CHOSEN] = current_section_number + 1 
 
 def handle_previous_segment_button_click():
     current_item = st.session_state[ui_constants.MEDIA_ITEM_CHOSEN]
     current_section_number = st.session_state[ui_constants.MEDIA_ITEM_SEGMENT_CHOSEN]['order']
     if( current_section_number < len(current_item['sections']) or current_section_number > 0 ):
         st.session_state[ui_constants.MEDIA_ITEM_SEGMENT_CHOSEN] = current_item['sections'][current_section_number-1]
+        st.session_state[ui_constants.MEDIA_ITEM_INDEX_CHOSEN] = current_section_number - 1
      
 # Builders
 def build_list_page():
@@ -83,8 +87,7 @@ def build_list_page():
             })
 
     st.write("This page allows you to explore the metadata of your videos.")
-    st.header("List:")
-
+    
     with st.spinner('Loading your videos...'):
         content_grid = grid(1, vertical_align="center")
         for index, item in enumerate(items):  
@@ -92,7 +95,9 @@ def build_list_page():
             item_container = content_grid.container(border=True)
             card_top_row = item_container.columns([8,1])
 
-            card_top_row[0].subheader(f"{index+1} - {item['name']}")
+            # card_top_row[0].subheader(f"{index+1} - {item['name']}")
+
+            card_top_row[0].markdown(utils.build_item_header(index, item['name']), unsafe_allow_html=True)
             card_top_row[1].button('Details ↘️', key = item['file_name']+'b',on_click=handle_button_click, args=([item]))
             item_container.image(thumbnails, width=350)
         st.toast(body='All videos loaded', icon='👍')
@@ -128,19 +133,24 @@ def build_detail_page(item):
             
             row1 = row([5,2], vertical_align="center")
             row1.subheader(f"{section['order']+1}")
-            row1.button('Details ↘️', key=section['reason'], on_click=handle_section_click, args=([section]))
+            row1.button('Details ↘️', key=section['reason'], on_click=handle_section_click, args=([section, len(item['sections'])]))
 
             st.write(f" *Duration*: {section['start_time']} >> {section['end_time']}")
             st.write(f" *Shot Type*: {section['type']}")
             st.write(f" *Reason*: {section['reason']}")
             
-def build_section_detail_page(item,  section):    
+def build_section_detail_page(item,  section, index, length):    
     header_row = row( [10,5], vertical_align="center")
     header_row.header(f"{item['name']} >> Moment {section['order']+1}")
     header_navigation = header_row.columns(3)
     header_navigation[0].button(label='Video List ↖️', on_click=handle_back_button_click)
-    header_navigation[1].button(label='Previous ⬅️ ', on_click=handle_previous_segment_button_click)
-    header_navigation[2].button(label='Next ➡️', on_click=handle_next_segment_button_click)
+    if index == 0:
+        header_navigation[1].button(label='Next ➡️', on_click=handle_next_segment_button_click)
+    elif index == length-1:
+        header_navigation[1].button(label='Previous ⬅️', on_click=handle_previous_segment_button_click)
+    else:
+        header_navigation[1].button(label='Previous ⬅️', on_click=handle_previous_segment_button_click)
+        header_navigation[2].button(label='Next ➡️', on_click=handle_next_segment_button_click)
 
     # create VTT file
     json_object = utils.load_json_from_gcs_uri(section['split_transcription_uri'])
@@ -190,4 +200,8 @@ elif st.session_state[ui_constants.MEDIA_VIEW_TYPE] == ui_constants.MEDIA_VIEW_I
     build_detail_page(st.session_state[ui_constants.MEDIA_ITEM_CHOSEN])
 elif st.session_state[ui_constants.MEDIA_VIEW_TYPE] == ui_constants.MEDIA_VIEW_ITEM_SEGMENT:
     st.empty()
-    build_section_detail_page(st.session_state[ui_constants.MEDIA_ITEM_CHOSEN], st.session_state[ui_constants.MEDIA_ITEM_SEGMENT_CHOSEN])
+    if ui_constants.MEDIA_ITEM_INDEX_CHOSEN not in st.session_state:
+        st.session_state[ui_constants.MEDIA_ITEM_INDEX_CHOSEN] = 0
+    if ui_constants.MEDIA_ITEM_SECTIONS_LENGTH not in st.session_state:
+        st.session_state[ui_constants.MEDIA_ITEM_INDEX_CHOSEN] = len(st.session_state[ui_constants.MEDIA_ITEM_CHOSEN]['sections'])
+    build_section_detail_page(st.session_state[ui_constants.MEDIA_ITEM_CHOSEN], st.session_state[ui_constants.MEDIA_ITEM_SEGMENT_CHOSEN], st.session_state[ui_constants.MEDIA_ITEM_INDEX_CHOSEN], st.session_state[ui_constants.MEDIA_ITEM_SECTIONS_LENGTH])

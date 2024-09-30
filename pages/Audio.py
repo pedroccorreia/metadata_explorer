@@ -2,7 +2,6 @@ import streamlit as st
 from streamlit_extras.grid import grid
 from streamlit_extras.tags import tagger_component
 
-
 import constants
 from services.metadata_service import MetadataService
 from services.storage_service import StorageService
@@ -22,9 +21,10 @@ if ui_constants.SERVICE_STORAGE not in st.session_state:
 
 metadata_service = MetadataService(collection_name = constants.AUDIO_FIRESTORE_DATABASE)
 
-def build_audio_card(item, transcript_json = None, subtitle_file:str = None):
-    st.subheader(item['name'])
-                
+def build_audio_card(index, item, transcript_json = None, subtitle_file:str = None):
+    
+    st.markdown(utils.build_item_header(index, item['name']), unsafe_allow_html=True)
+            
     file_gcs_uri = f"gs://{constants.INPUT_BUCKET}/{item['file_name']}"
 
     if transcript_json != None:
@@ -48,10 +48,9 @@ def build_audio_card(item, transcript_json = None, subtitle_file:str = None):
 def build_list_page(): 
     items = metadata_service.list_all_documents()
     st.write("This page allows you to explore the metadata of the audio files.")
-    st.header("List:")
-
+    
     content_grid = grid(2, vertical_align="center")
-    for item in items:
+    for index, item in enumerate(items):
         if 'metadata' in item:
             with content_grid.container(border=True):
                 transcript_json = None
@@ -61,11 +60,11 @@ def build_list_page():
                     subtitle_file = f"output_{item['name']}.vtt"
                     utils.json_to_vtt2(transcript_json, subtitle_file)
                     # With transcription / subtitles
-                    build_audio_card(item, transcript_json=transcript_json, subtitle_file=subtitle_file)
+                    build_audio_card(index, item, transcript_json=transcript_json, subtitle_file=subtitle_file)
                 except Exception as e:
                     print(f"error handling transcript / subtitles for {item['name']} - {e}")
                 # No transcription / subtitles
-                build_audio_card(item)
+                build_audio_card(index, item)
     st.toast('All audio files loaded', icon='👍')
 
                 

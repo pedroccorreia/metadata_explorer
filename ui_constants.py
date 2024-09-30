@@ -10,6 +10,12 @@ MEDIA_VIEW_ITEM = "media_view_item"
 MEDIA_ITEM_CHOSEN = "media_item_chosen"
 # Boolean flag to inform if a there is an item being explored in detail
 MEDIA_ITEM_SEGMENT_CHOSEN = "media_item_segment_chosen"
+# Index of the Item Chosen
+MEDIA_ITEM_INDEX_CHOSEN = "media_item_index_chosen"
+# Number of section on item chosen
+MEDIA_ITEM_SECTIONS_LENGTH = "media_item_sections_length"
+
+
 
 
 #Service definitions
