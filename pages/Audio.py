@@ -63,8 +63,8 @@ def build_list_page():
                     build_audio_card(index, item, transcript_json=transcript_json, subtitle_file=subtitle_file)
                 except Exception as e:
                     print(f"error handling transcript / subtitles for {item['name']} - {e}")
-                # No transcription / subtitles
-                build_audio_card(index, item)
+                    # No transcription / subtitles
+                    build_audio_card(index, item)
     st.toast('All audio files loaded', icon='👍')
 
                 

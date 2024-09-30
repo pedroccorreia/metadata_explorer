@@ -42,11 +42,14 @@ def json_to_vtt2(json_data, output_file):
                 words = alternative['words']
 
                 # Bundle words into groups of 8
-                for i in range(0, len(words), 12):  # Start at 0, increment by 8
-                    bundle = words[i:i+12]  # Take up to 8 words
+                for i in range(0, len(words), 8):  # Start at 0, increment by 8
+                    bundle = words[i:i+8]  # Take up to 8 words
+                    
 
                     if bundle:  # Check if the bundle is not empty
-                        start = bundle[0]['startOffset']
+                        start = '0.000s'
+                        if 'startOffset' in bundle[0]:
+                            start = bundle[0]['startOffset']
                         end = bundle[-1]['endOffset']
                         text = ' '.join(word['word'] for word in bundle)
 
