@@ -2,25 +2,34 @@ import streamlit as st
 import constants
 import pandas as pd
 
+
 from services.storage_service import StorageService
 import ui_constants
+from utils import add_logo
 
 
 st.set_page_config(
-    page_title="Metadata Explorer",
+    page_title="Editorial Solaris",
     page_icon="🗺️",
     layout="wide",    
 )
+
+my_logo = add_logo(logo_path="media/logo.jpeg", width=240, height=240)
+
+logo_row = st.columns(3)
+logo_row[1].image(my_logo)
+# st.image(my_logo)
 
 if ui_constants.SERVICE_STORAGE not in st.session_state:
     with st.spinner('Getting your experience ready...'):
         # Services initialization
         st.session_state[ui_constants.SERVICE_STORAGE] = StorageService([constants.INPUT_BUCKET, constants.OUTPUT_BUCKET], constants.SERVICE_ACCOUNT_KEY_FILE)
 
-
+header_row = st.columns([6,1], vertical_alignment="center")
+header_row[0].title("Editorial Solaris - A metadata explorer")
 
 # Page definition
-st.header("Metadata Explorer 🗺️")
+# st.header("Metadata Explorer 🗺️")
 st.write("This app allows you to explore the metadata of your media assets. There is an ingestion pipeline that looks at your media assets and creates metadata")
 st.write("This front end connects to a firestore database that has the metadata on your assets. What's on these assets is explained next.")
 

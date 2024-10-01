@@ -60,6 +60,10 @@ def build_list_page():
         st.toast('All images loaded', icon='👍')
                     
             
-st.title("Images 🏞️")
+my_logo = utils.add_logo()
+
+header_row = st.columns([6,1], vertical_alignment="center")
+header_row[0].title("Images")
+header_row[1].image(my_logo)                    
 
 build_list_page()

@@ -184,7 +184,11 @@ def build_section_detail_page(item,  section, index, length):
 
 
 # Page Logic
-st.title("Videos 📼")
+my_logo = utils.add_logo()
+
+header_row = st.columns([6,1], vertical_alignment="center")
+header_row[0].title("Videos")
+header_row[1].image(my_logo)                    
 
 # Start up navigation and state info
 if  ui_constants.MEDIA_VIEW_TYPE not in st.session_state:

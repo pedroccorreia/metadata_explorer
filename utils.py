@@ -1,7 +1,8 @@
 import json
 from google.cloud import storage
 
-import constants
+from PIL import Image
+
 
 # Function that converts the json object with the topics into a simple array with the strings 
 # of the different topics
@@ -125,9 +126,9 @@ def get_thumbnails(video, storage_service):
 
 #builds the header for the different items
 def build_item_header(index, name):
-    color = "#AC87eb"
+    color = "#fdc11a"
     if index % 2 != 0:
-        color = "#078EFB"
+        color = "#d9387c"
     return f"""
         <div style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 5px;"> 
             <div style="display: inline-block; width: 50px; height: 50px; border-radius: 50%; 
@@ -136,3 +137,10 @@ def build_item_header(index, name):
             <h3 style="margin-left: 10px;">{name}</h3> 
         </div>
         """   
+
+
+def add_logo(logo_path='media/logo.jpeg', width=200, height=200):  # Set default width and height to 100
+    """Read and return a resized logo"""
+    logo = Image.open(logo_path)
+    modified_logo = logo.resize((width, height))
+    return modified_logo

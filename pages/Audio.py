@@ -20,17 +20,20 @@ if ui_constants.SERVICE_STORAGE not in st.session_state:
         st.session_state[ui_constants.SERVICE_STORAGE] = StorageService([constants.INPUT_BUCKET, constants.OUTPUT_BUCKET], constants.SERVICE_ACCOUNT_KEY_FILE)
 
 metadata_service = MetadataService(collection_name = constants.AUDIO_FIRESTORE_DATABASE)
+storage_service = st.session_state[ui_constants.SERVICE_STORAGE]
+
 
 def build_audio_card(index, item, transcript_json = None, subtitle_file:str = None):
     
     st.markdown(utils.build_item_header(index, item['name']), unsafe_allow_html=True)
             
-    file_gcs_uri = f"gs://{constants.INPUT_BUCKET}/{item['file_name']}"
+    # file_gcs_uri = f"gs://{constants.INPUT_BUCKET}/{item['file_name']}"
+    video_url = storage_service.get_signed_url(item['file_name'])
 
     if transcript_json != None:
-        st.video(utils.get_public_gcs_url(file_gcs_uri), subtitles=subtitle_file, autoplay=False)
+        st.video(video_url, subtitles=subtitle_file, autoplay=False)
     else:
-        st.video(utils.get_public_gcs_url(file_gcs_uri), autoplay=False)
+        st.video(video_url, autoplay=False)
 
     st.write(f"*Show*: {item['metadata']['show_name']}")
     st.write(f"*Short*: {item['metadata']['short_summary']}")
@@ -67,9 +70,11 @@ def build_list_page():
                     build_audio_card(index, item)
     st.toast('All audio files loaded', icon='👍')
 
-                
-                    
 
-st.title("Audio 🎧")
+my_logo = utils.add_logo()
+
+header_row = st.columns([6,1], vertical_alignment="center")
+header_row[0].title("Audio")
+header_row[1].image(my_logo)                    
 
 build_list_page()
