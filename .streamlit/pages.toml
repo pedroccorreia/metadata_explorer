@@ -13,7 +13,7 @@ name = "Images"
 icon = "🏞️"
 
 [[pages]]
-path = "pages/Audio.py"
+path = "pages/audio.py"
 name = "Audio"
 icon = "🎧"
 
