@@ -10,11 +10,6 @@ from services.storage_service import StorageService
 import ui_constants
 import utils
 
-st.set_page_config(
-    page_title="Videos",
-    page_icon="📼",
-    layout="wide",    
-)
 
 
 if ui_constants.SERVICE_STORAGE not in st.session_state:

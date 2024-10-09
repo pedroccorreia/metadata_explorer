@@ -1,0 +1,23 @@
+[[pages]]
+path = "home.py"
+name = "Home"
+
+[[pages]]
+path = "pages/videos.py"
+name = "Videos"
+icon = "🎬"
+
+[[pages]]
+path = "pages/images.py"
+name = "Images"
+icon = "🏞️"
+
+[[pages]]
+path = "pages/Audio.py"
+name = "Audio"
+icon = "🎧"
+
+[[pages]]
+path = "pages/architecture.py"
+name = "Tech Specs"
+icon = "🪜"
