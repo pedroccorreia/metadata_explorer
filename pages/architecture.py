@@ -25,7 +25,7 @@ st.write("""
         2.  [Prompts](#prompts) with all the inputs sent to gemini models.
         3.  [Metadata](#metadata) format for the different media types.
          
-        All the code can be found in this github rep [https://github.com/pedroccorreia/metadata_explorer/](rhttps://github.com/pedroccorreia/metadata_explorer/)
+        All the code can be found in this github rep [https://github.com/pedroccorreia/metadata_explorer/](https://github.com/pedroccorreia/metadata_explorer/)
          """)
 
 st.header("Ingestion Pipeline")

@@ -10,8 +10,6 @@ from services.storage_service import StorageService
 import ui_constants
 import utils
 
-
-
 if ui_constants.SERVICE_STORAGE not in st.session_state:
     with st.spinner('Getting your experience ready...'):
         # Services initialization
