@@ -22,4 +22,7 @@ class MetadataService:
     
     def get_document_by_key(self, key: str):
         doc = self.db.collection(self.collection_name).document(key).get()
-        return doc
+        if doc.exists:
+            return doc.to_dict()
+        else:
+            return None

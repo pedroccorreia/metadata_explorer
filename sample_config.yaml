@@ -11,3 +11,13 @@ db:
   video: metadata
   image: images
   audio: audio
+  article: article-demo
+
+search:
+  index_endpoint: vector_search_endpoint_id
+  deployed_index_id: vector_search_id
+
+models:
+  embedding: text-embedding-004
+  creation: gemini-1.5-pro-001
+  

@@ -3,16 +3,13 @@ from streamlit_extras.grid import grid
 from streamlit_extras.tags import tagger_component
 
 import constants
+from pages.common.common_components import CommonComponents
 from services.metadata_service import MetadataService
 from services.storage_service import StorageService
 import ui_constants
 import utils
 
-if ui_constants.SERVICE_STORAGE not in st.session_state:
-    with st.spinner('Getting your experience ready...'):
-        # Services initialization
-        st.session_state[ui_constants.SERVICE_STORAGE] = StorageService([constants.INPUT_BUCKET, constants.OUTPUT_BUCKET], constants.SERVICE_ACCOUNT_KEY_FILE)
-
+CommonComponents.init_app()
 
 metadata_service = MetadataService(collection_name = constants.IMAGE_FIRESTORE_DATABASE)
 storage_service = st.session_state[ui_constants.SERVICE_STORAGE]

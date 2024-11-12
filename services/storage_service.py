@@ -50,5 +50,3 @@ class StorageService():
     def get_signed_url(self, object_name):
         return self.signed_urls[object_name]
     
-
-#TODO: Move additional methods here as statics ones instead of the utils file

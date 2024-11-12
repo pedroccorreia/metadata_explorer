@@ -2,16 +2,13 @@ import pandas as pd
 import streamlit as st
 
 import constants
+from pages.common.common_components import CommonComponents
 from services.storage_service import StorageService
 import ui_constants
 from utils import add_logo
 import utils
 
-if ui_constants.SERVICE_STORAGE not in st.session_state:
-    with st.spinner('Getting your experience ready...'):
-        # Services initialization
-        st.session_state[ui_constants.SERVICE_STORAGE] = StorageService([constants.INPUT_BUCKET, constants.OUTPUT_BUCKET], constants.SERVICE_ACCOUNT_KEY_FILE)
-
+CommonComponents.init_app()
 
 my_logo = utils.add_logo()
 

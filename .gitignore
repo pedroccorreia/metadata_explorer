@@ -5,3 +5,4 @@ deploy_config/*
 *.vtt
 .DS_Store
 media/logo.png
+*.mp3

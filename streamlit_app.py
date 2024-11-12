@@ -1,9 +1,13 @@
 import streamlit as st
 
-from st_pages import get_nav_from_toml
+from pages.common.common_components import CommonComponents
 
 st.set_page_config(layout="wide")
 
-nav = get_nav_from_toml(".streamlit/pages.toml")
-pg = st.navigation(nav)
+common_components = CommonComponents()
+
+pages =  common_components.get_pages()
+st.session_state['CommonComponents'] = common_components
+
+pg = st.navigation(pages)
 pg.run()
