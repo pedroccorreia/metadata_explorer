@@ -17,7 +17,6 @@ metadata_service = MetadataService()
 storage_service = st.session_state[ui_constants.SERVICE_STORAGE]
 
 
-
 # Service Handlers
 def get_media_items():
     items = metadata_service.list_all_documents()
@@ -89,7 +88,11 @@ def build_list_page():
 
             card_top_row[0].markdown(utils.build_item_header(index, item['name']), unsafe_allow_html=True)
             card_top_row[1].button('Details ↘️', key = item['file_name']+'b',on_click=handle_button_click, args=([item]))
-            item_container.image(thumbnails, width=350)
+            thumbnail_row = item_container.columns(3) 
+            thumbnail_row[0].image(thumbnails[0], width=350)
+            thumbnail_row[1].image(thumbnails[1], width=350)
+            thumbnail_row[2].image(thumbnails[2], width=350)
+
         st.toast(body='All videos loaded', icon='👍')
             
             

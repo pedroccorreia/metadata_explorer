@@ -33,7 +33,7 @@ st.write(
 
     1.  User uploads different asset types into a google cloud storage bucket.
     2.  Use Colab Enterprise to run the pipeline that generates the metadata.
-    3.  The pipeline will run multiple prompts to Gemini to create data according to the asset type.
+    3.  The pipeline will run multiple prompts to Gemini to create data according to the asset type. It will also use the Speech to Text to transcribe the audio.
     4.  Those prompts will use the assets provided in step 1. 
     5.  Throughout the different steps it will store metadata into firestore. 
     6.  Transcription files and sub-clips objects are stored in an output folder.    
