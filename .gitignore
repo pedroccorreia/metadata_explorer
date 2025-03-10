@@ -1,6 +1,7 @@
 .venv/*
 secrets/*
 config.yaml
+test/*
 deploy_config/*
 *.vtt
 .DS_Store

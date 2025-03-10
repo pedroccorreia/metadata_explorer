@@ -30,6 +30,9 @@ SEARCH_ENDPOINT_ID = config_info['search']['index_endpoint']
 
 SERVICE_ACCOUNT_KEY_FILE = 'secrets/credentials.json'
 
+
+# VOICE_MODEL = ['voice']['model']
+
 class AssetTypes(Enum):
     ARTICLE = "article"
     AUDIO = "audio"

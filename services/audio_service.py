@@ -8,14 +8,14 @@ from vertexai.preview.generative_models import GenerativeModel, GenerationConfig
 
 TTS_LOCATION = "us-central1"
 REGION = "us-central1"
-DEFAULT_LANGUAGE = "en-gb"
+DEFAULT_LANGUAGE = "en-au"
 
 class AudioService:
 
     def __init__(self):
         vertexai.init(project=constants.PROJECT_ID,location=REGION)
         
-        self.voice = "en-GB-Neural2-B"
+        self.voice = "en-US-Studio-O" # constants.VOICE_MODEL
         self.tts_client = texttospeech.TextToSpeechClient(
         client_options=ClientOptions(
             api_endpoint=f"{TTS_LOCATION}-texttospeech.googleapis.com"

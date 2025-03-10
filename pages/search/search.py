@@ -115,19 +115,18 @@ def build_card_entries(results : dict):
                     index +=1
             #TODO: finish sgement logic
             # elif(entry['asset_type'] == AssetTypes.SEGMENT.value and include_video):
-            #     with content_grid.container(border=True):
-            #         build_card_entry(index, entry['media_id'], 
-            #                     f"🏞️ {metadata['name']}",
-            #                     metadata['reason'],
-            #                     metadata['start_time'])
-            #                     index +=1
+                # with content_grid.container(border=True):
+                #     build_card_entry(index, entry['media_id'], 
+                #                      f"🪚 {metadata['name']}", metadata['sections'][0]['reason'], 
+                #                      metadata['sections'][0]['start_time'])
+                #     index +=1
             
     
     with bottom():
         num_of_items = len(st.session_state[ui_constants.LAUNCHPAD_ITEMS] )
         st.divider()
         cols = st.columns([2,5,2,2,2])
-        cols[1].write("🎬 - Videos | 🏞️ - Images | 📰 - News Article | 🎙️ - Audio")
+        cols[1].write("🎬 - Videos | 🪚 - Sections | 🏞️ - Images | 📰 - News Article | 🎙️ - Audio")
         cols[2].write(f"Launchpad counter: {num_of_items} ")
         if num_of_items > 0:
             cols[3].button("Clear",type="secondary", on_click=clear_launchpad)
